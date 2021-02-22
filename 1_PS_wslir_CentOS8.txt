@@ -74,6 +74,6 @@ source ~/.bashrc && clear
 
 # Install Git and confirgure with credential
 cd ~ && ls -l
-git config --global user.name "Inforeach"
+git config --global user.name "wkenross"
 git config --global user.email "wkenross@gmail.com"
 git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe"
