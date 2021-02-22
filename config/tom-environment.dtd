@@ -1,0 +1,7 @@
+<!ENTITY ken "wkenro@outlook.com">
+<!ENTITY install_dir "/usr">
+<!ENTITY mod_dir "/usr/lib64/tom-tsdb">
+<!ENTITY config_dir "/etc/tom">
+<!ENTITY default_repo "msci">
+<!ENTITY license_dir "/etc/tom">
+<!ENTITY license_file "twiddle.lic">

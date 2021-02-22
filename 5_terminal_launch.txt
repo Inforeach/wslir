@@ -1,0 +1,51 @@
+# WSL commands from PowerShell prompt
+exit
+clear
+- ctrl-shift-`  #Launch new terminal
+wsl -l -v
+wsl --terminate CentOS8d
+
+# Launch WSL terminal instead of PowerShell
+wslconfig /s CentOS8
+wsl
+
+# VS Code terminal prompt commands
+cd $home\OneDrive\.iReach\wslirg; dir
+cd c:\wslir; dir
+ii . # launch WinDir file explorer
+
+wslconfig /s CentOS8; wsl --user wslir
+cd ~/projects/econReach; dir
+cd ~/projects/useqReach; dir
+explorer.exe . # launch WSL file explorer
+code . # Launch folder in WSL:CentOS8 VS Code
+
+# Git config in VS Code
+git config --global user.name "wkenross"
+git config --global user.email "wkenross@gmail.com"
+git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe"
+
+# Launch Windows Terminal Configuration and paste commands from PowerShell
+
+wt -p "PowerShell" -d $home/OneDrive/.iReach/pyReach `; split-pane -p "PowerShell" --title "wslir" -d c:/wslir `; `
+	new-tab -p "CentOS8p" -d \\wsl$\\CentOS8p\\home\\wslirp\\projects\\us_eq `; split-pane -p "PowerShell" --title "useq" -d $home/OneDrive/.iReach/wslirp `; `
+	new-tab -p "CentOS8c" -d \\wsl$\\CentOS8c\\home\\wslirc\\projects\\econ `; split-pane -p "PowerShell" --title "econ" -d $home/OneDrive/.iReach/wslirc `; `
+    new-tab -p "CentOS8" --title "useqReach" -d \\wsl$\\CentOS8\\home\\wslir\\projects\\useqReach `; `
+    new-tab -p "CentOS8" --title "econReach" -d \\wsl$\\CentOS8\\home\\wslir\\projects\\econReach  `; `
+    new-tab -p "CentOS8d" -d \\wsl$\\CentOS8d\\home\\wslird\\projects\\demo `; split-pane -p "CentOS8d" --title "demo" -d \\wsl$\\CentOS8d\\home\\wslird\\projects\\backtest;
+
+# Launch Windows Terminal Configuration in bash rather than PowerShell
+https://docs.microsoft.com/en-us/windows/terminal/get-started
+cmd.exe /c "wt-exe" -p "PowerShell" -d $home/OneDrive/.iReach/wslirm \; new-tab -p "CentOS8m" -d \\wsl$\\CentOS8m\\home\\wslirm\\iReach \; \
+    new-tab -p "CentOS8m" -d \\wsl$\\CentOS8m\\home\\wslirm\\projects\\demo \; split-pane -p "CentOS8m" -d \\wsl$\\CentOS8m\\home\\wslirm\\projects\\backtest \; \
+    new-tab -p "CentOS8m" -d \\wsl$\\CentOS8m\\home\\wslirm\\projects\\econ \; \
+    new-tab -p "CentOS8" -d \\wsl$\\CentOS8m\\home\\wslirm\\projects\\pyfinance;
+    
+# Configure the demo bash prompt for CentOS8m / wslirm
+wslconfig /s CentOS8; wsl --user wslir
+cp ~/.bashrc ~/.bashrc.bak
+vi ~/.bashrc
+export PS1="\[\033[02;92m\]\u@\H:\[\033[02;93m\]\w\$\[\033[00m\] "
+- Insert the above string, esc then :wq to save
+source ~/.bashrc
+

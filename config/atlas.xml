@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!-- Definition of an atlasdb repository 
+  name=[unique:string]	value used to identify discrete repo in engine.get_session('name')
+  module="mod_atlas"	The module(.so|.dll) that manages the atlasdb environment.
+  description="<any>"	Anything that describes this repository. Market data, Fed Data...
+-->
+<repository name="atlas" module="mod_atlas" description="AtlasDB">
+ <options>
+ 
+  <!--
+      This specifies the amount of memory for caching in the db environment.
+      This is shared by all databases within the environment, but not across 
+      separate db environments.
+      NOTE: This should be a power of 2!  Sizes < 500M are rounded up 25% for overhead.
+       -->
+  <cache-size max-mmap-size="1073741824">1073741824</cache-size>
+
+  <transactions use="1" write-ahead-logging="1" timeout="10000"/>
+
+  <!--
+    Configure locking. This is important for both heavily threaded applications and
+    many and/or massive multi-process shared environments.  If you find frequent lock
+    failures, try increasing timeout(in microseconds) or increase the lock/lockers/objects
+    accross the board.
+    You can inspect lock statistics using the atlas-lock-inspector command line tool.
+  -->
+  <locking max-lockers="1200" max-locks="1200" max-objects="1200" timeout="10000"/>
+
+  <!-- timeseries are stored in chunks on datastore pages
+    chunk-size=[n] n should be a power of 2. a datastore, once created, cannot change
+		   chunk-size.
+    page-size=[n] n should be a power of 2. a datastore locks pages, so pages should 
+		  be large enough to hold several chunks, but no so big that lock
+		  contention becomes an issue for multi-threaded programs.
+  -->
+  <datastore chunk-size="2048" page-size="32768"/>
+
+  <!-- 
+      This specifies the root directory for database files.  
+      dbs should be openned relative to this path.
+      -->
+  <db-home mode="666" paths-relative-to="1">/home/wslir/data/atlas</db-home>
+
+  <!--
+    Configure replication:
+      use=[0|1]  1 turns on replication
+      write-forwarding=[0|1] 1 causes writes in the client to be forwarded to the master
+      i-am-master=[0|1] Should almost always be 0. 1 is reserved for the master in the replication group
+  -->
+  <replication use="0" write-forwarding="1" i-am-master="0">
+
+    <!-- where is atlas-replicator running -->
+    <master host="localhost" port="5000"/>
+
+    <!-- where are the replication group peers running -->
+    <peers>
+      <peer host="localhost" port="3501"/>
+      <!--
+      <peer host="x" port="1111"/>
+      <peer host="y" port="1112"/>
+      -->
+    </peers>
+  </replication>
+
+ </options>
+</repository>
+

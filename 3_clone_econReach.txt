@@ -1,0 +1,40 @@
+# Create virtual Python environment 
+wslconfig /s CentOS8; wsl --user wslir
+cd ~/projects; ls -l
+
+# Clone econReach project
+git clone https://github.com/Inforeach/econReach.git
+
+# Create virtual environment and turn off Git update for env
+cd econReach
+python3 -m venv env
+cd ~/projects/econReach && source env/bin/activate
+pip install --upgrade pip
+pip3 install pandas
+pip3 install fredapi
+pip3 install quandl
+pip3 install pandas_datareader
+pip3 install plotly
+pip3 install Ipython
+pip3 install iPyKernel
+pip3 install Jupyterlab
+
+pip3 install seaborn
+pip3 install xlrd
+pip3 install xlwt
+
+pip3 install datetime
+pip3 install pathlib
+
+# Activate virtual environment
+git init  
+echo '/env' .gitignore
+pip3 freeze > requirements.txt
+
+# Launch projects in CentOS8 VS Code Container
+cp ~/wslir/3_clone_econReach.txt ~/projects/econReach
+code .
+
+python collect_fred.py
+python collect_sutils.py
+code wrangle_DE.ipynb

@@ -1,0 +1,27 @@
+# From Bash terminal: Install Python3 and Boost on CentOS8 distribution via WSL prompt in VS Code PowerShell
+cd ~; ls -l
+sudo yum install python3
+sudo yum install boost
+y
+
+# Install iReachDB Environment on to CentOS8 via symbolic link to Windows wslir folder
+ln -s /mnt/c/wslir/; ls -l
+cd ~/wslir; ls -l
+# Copy data file and run RPMs
+cp ~/wslir/data -fr ~; cd ~; ls -l
+cd ~/wslir/rpms; ls -l
+sudo rpm -Uvh --nodeps *.rpm
+
+# Copy config files and emailed license file to /etc/tom folder
+cd ~/wslir/config; ls -l
+sudo cp -fr *.xml /etc/tom
+sudo cp -fr *.dtd /etc/tom
+
+sudo cp -fr ~/wslir/twiddle.lic /etc/tom
+sudo chmod 666 /etc/tom/twiddle.lic
+cd /etc/tom && ls -l
+
+# Create projects folder
+cd ~; ls -l
+mkdir projects
+cd projects

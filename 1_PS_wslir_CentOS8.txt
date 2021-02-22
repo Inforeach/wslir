@@ -1,0 +1,79 @@
+## Set up CentOS8 on Windows Subystem for Linux based on OneDrive wslir
+
+# Azure CLI package and Scrapbook associated to .TXT files sends commands to either PowerShell or Bash
+https://marketplace.visualstudio.com/items?itemName=ms-vscode.azurecli
+- ctrl-shif-~ # Launches PowerShell or Bash terminal in VS Code
+exit
+clear
+
+# Extract a base CentOS8 instance to c:\wslir via Powershell terminal
+Expand-Archive -Path CentOS8.Zip -DestinationPath C:\wslir
+cd c:\wslir\CentOS8; dir
+
+# If previous distribution is corrupt, clean it within PowerShell terminal
+wsl -l -v
+wsl --terminate CentOS8 # if needed, terminate current running WSL:CentOS8 distributions
+cd c:\wslir\CentOS8; dir
+./CentOS8.exe clean
+y
+
+# Create new WSL:CentOS8, set as default and launch WSL terminal
+cd c:\wslir\CentOS8; dir
+start CentOS8.exe
+wslconfig /s CentOS8
+wsl -l -v
+wsl
+# In WSL terminal, install basic CentOS8 libraries with these commands in WSL
+cd ~
+dnf install 'dnf-command(config-manager)'
+y
+# dnf config-manager --set-enabled PowerTools
+dnf -y install \
+	sudo \
+	passwd \
+	openssh-clients \
+	wget \
+	unzip \
+	git \
+	vim
+	https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+clear
+# Add user so don't log in as root when installing iReach wslir
+user=wslir && useradd $user && passwd $user
+wsl
+user=wslir && gpasswd -a $user wheel && usermod -aG wheel $user
+
+# Exit WSL to get back to PowerShell and set default user of distro
+exit
+./CentOS8.exe config --default-user wslir
+
+# Lanch WSL terminal and new distribution
+wslconfig /s CentOS8; wsl --user wslir
+
+# Install Azure CLI on CentOS8 distribution
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+wsl
+
+sudo sh -c 'echo -e "[azure-cli]
+name=Azure CLI
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+
+sudo yum install azure-cli
+y
+
+# Freshen up the terminal bash prompt
+cd ~; cp ~/.bashrc ~/.bashrc.bak
+vi ~/.bashrc
+export PS1="\[\033[02;92m\]\u@\H:\[\033[02;93m\]\w\$\[\033[00m\] "
+- esc then :wq to save
+source ~/.bashrc && clear
+
+
+# Install Git and confirgure with credential
+cd ~ && ls -l
+git config --global user.name "Inforeach"
+git config --global user.email "wkenross@gmail.com"
+git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe"

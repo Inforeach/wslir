@@ -1,0 +1,33 @@
+# Create virtual Python environment 
+wslconfig /s CentOS8; wsl --user wslir
+cd ~/projects; ls -l
+
+mkdir demoReach && cd demoReach
+python3 -m venv env
+cd ~/projects/demoReach && source env/bin/activate
+pip install --upgrade pip
+pip3 install pandas
+pip3 install Ipython
+pip3 install ipykernel
+
+pip3 install plotly
+pip3 install chart_studio
+pip3 install ipywidgets
+pip3 install jupyterlab
+jupyter nbextension enable --py widgetsnbextension --sys-prefix
+
+# libraries for backtest project
+pip3 install pyyaml
+pip3 install cached_property
+pip3 install iPykernel
+pip3 install pandas-datareader
+pip3 install matplotlib
+
+# Configure folder to Git ignore env when updating files in project
+deactivate
+git init
+echo /env .gitignore
+pip3 freeze requirements
+
+# Open folder in CentOS8 and add additional files to project
+code .

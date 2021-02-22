@@ -1,0 +1,38 @@
+# Create virtual Python environment 
+wslconfig /s CentOS8; wsl --user wslir
+cd ~/projects; ls -l
+
+mkdir useqReach && cd useqReach
+python3 -m venv env
+cd ~/projects/useqReach && source env/bin/activate
+pip install --upgrade pip
+pip3 install pandas
+
+cd ~/projects/useqReach && source env/bin/activate
+pip3 install Ipython
+pip3 install ipykernel
+
+pip3 install nbformat
+pip3 install matplotlib
+pip3 install cached_property
+pip3 install datetime
+pip3 install sklearn
+pip3 install pathlib
+
+pip3 install plotly
+pip3 install bs4
+pip3 install requests
+pip3 install xlwt
+pip3 install xlrd
+pip3 install openpyxl
+
+pip3 install dash==1.12.0
+
+# Configure folder to Git ignore env when updating files in project
+deactivate
+git init
+echo /env .gitignore
+pip3 freeze requirements
+
+# Open folder in CentOS8 and add additional files to project
+code .

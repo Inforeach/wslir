@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE tom:environment SYSTEM "tom-environment.dtd"> 
+<tom:environment xmlns:tom="http://www.tomsolutions.com/tom/environment/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+ <logger level="debug" format="[%5d] [%11u] [%-25s] [%-15s] [%-5s] [%s]" file="atlas.log"/>
+ <license path="&license_dir;" file="&license_file;"/>
+
+ <tsdb default-repository="&default_repo;" module-directory="&mod_dir;">
+  <xi:include href="&config_dir;/atlas.xml"/>
+  <xi:include href="&config_dir;/fred.xml"/>
+ </tsdb>
+
+</tom:environment>
