@@ -1,18 +1,23 @@
 ## Set up CentOS8 on Windows Subystem for Linux based on OneDrive wslir
 
-# Azure CLI package and Scrapbook associated to .TXT files sends commands to either PowerShell or Bash
+# Associate text files with Azure CLI Scrapbook to sends commands to either PowerShell or Bash
+- VS Code status Bar: Select Language Mode to Associate with .txt
 https://marketplace.visualstudio.com/items?itemName=ms-vscode.azurecli
-- ctrl-shif-~ # Launches PowerShell or Bash terminal in VS Code
+- ctrl-shift-~ # Launches PowerShell or Bash terminal in VS Code
+- ctrl-' # executes command in terminal
 exit
 clear
 
 # Extract a base CentOS8 instance to c:\wslir via Powershell terminal
+cd c:\wslir\; dir
 Expand-Archive -Path CentOS8.Zip -DestinationPath C:\wslir
 cd c:\wslir\CentOS8; dir
 
 # If previous distribution is corrupt, clean it within PowerShell terminal
+- if needed, terminate current running WSL:CentOS8 distributions
 wsl -l -v
-wsl --terminate CentOS8 # if needed, terminate current running WSL:CentOS8 distributions
+wsl --terminate CentOS8
+
 cd c:\wslir\CentOS8; dir
 ./CentOS8.exe clean
 y
@@ -23,11 +28,11 @@ start CentOS8.exe
 wslconfig /s CentOS8
 wsl -l -v
 wsl
+
 # In WSL terminal, install basic CentOS8 libraries with these commands in WSL
 cd ~
 dnf install 'dnf-command(config-manager)'
 y
-# dnf config-manager --set-enabled PowerTools
 dnf -y install \
 	sudo \
 	passwd \
@@ -50,6 +55,19 @@ exit
 # Lanch WSL terminal and new distribution
 wslconfig /s CentOS8; wsl --user wslir
 
+# Freshen up the terminal bash prompt
+cd ~; cp ~/.bashrc ~/.bashrc.bak
+vi ~/.bashrc
+export PS1="\[\033[02;92m\]\u@\H:\[\033[02;93m\]\w\$\[\033[00m\] "
+- esc then :wq to save
+source ~/.bashrc && clear
+
+# Install Git and confirgure with credential
+cd ~ && ls -l
+git config --global user.name "wkenross"
+git config --global user.email "wkenross@gmail.com"
+git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe"
+
 # Install Azure CLI on CentOS8 distribution
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 wsl
@@ -63,17 +81,3 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azu
 
 sudo yum install azure-cli
 y
-
-# Freshen up the terminal bash prompt
-cd ~; cp ~/.bashrc ~/.bashrc.bak
-vi ~/.bashrc
-export PS1="\[\033[02;92m\]\u@\H:\[\033[02;93m\]\w\$\[\033[00m\] "
-- esc then :wq to save
-source ~/.bashrc && clear
-
-
-# Install Git and confirgure with credential
-cd ~ && ls -l
-git config --global user.name "wkenross"
-git config --global user.email "wkenross@gmail.com"
-git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager.exe"

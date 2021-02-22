@@ -1,4 +1,5 @@
 # From Bash terminal: Install Python3 and Boost on CentOS8 distribution via WSL prompt in VS Code PowerShell
+- ctrl-shift-`
 cd ~; ls -l
 sudo yum install python3
 sudo yum install boost
